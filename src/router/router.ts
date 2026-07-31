@@ -1,9 +1,16 @@
+import App from "@/App";
 import { Dashboard } from "@/pages/dashboard";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
+  {
+    path: "/",
+    Component: App,
+    children: [
+      {
+        index: true,
         Component: Dashboard,
-    },
+      },
+    ],
+  },
 ]);
