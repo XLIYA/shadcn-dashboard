@@ -1,5 +1,6 @@
 export const Dashboard = () => {
     return (
-        <p>dashboard</p>
+        <p className="text-3xl font-bold">Dashbord</p>
+        
     )
 }

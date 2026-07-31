@@ -6,6 +6,7 @@ import {
 
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { router } from "@/router/router";
 import { BookOpen, Calendar, Contact, House, MessageCircle, NotepadText, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -21,22 +22,22 @@ export function AppSidebar() {
 
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <BookOpen className="size-4" />Courses
+            <BookOpen className="size-4" /><Link to="/">Courses</Link>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <NotepadText className="size-4" /> Assignments
+            <NotepadText className="size-4" /> <Link to="/">Assignments</Link>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <Calendar className="size-4" /> Calendar
+            <Calendar className="size-4" /> <Link to="/">Calendar</Link>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <MessageCircle className="size-4" />Messages <Badge className=" ml-auto size-8 bg-violet-100 text-violet-700  text-sm" variant="secondary">5</Badge>
+            <MessageCircle className="size-4" /><Link to="/">Messages</Link> <Badge className=" ml-auto size-8 bg-violet-100 text-violet-700  text-sm" variant="secondary">5</Badge>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <Contact className="size-4" />Community
+            <Contact className="size-4" /><Link to="/">Community</Link>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <Settings className="size-4" />Settings
+            <Settings className="size-4" /><Link to="/">Settings</Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
