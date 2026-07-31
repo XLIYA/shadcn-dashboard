@@ -3,14 +3,18 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Switch } from "../ui/switch";
+import { SidebarTrigger } from "../ui/sidebar";
 
 function Header() {
   return (
-    <header className="p-4 flex h-16 justify-between bg-gray-50 border-b">
-      <div className=" flex gap-2   font-bold">
+    <header className="fixed inset-x-0 top-0 z-20 flex h-16 items-center justify-between border-b bg-gray-50 p-4">
+      <div className=" flex gap-2 font-bold">
         <GraduationCap className="text-violet-800" />
         EduBoard
+        
+        <SidebarTrigger />
       </div>
+
 
       <div className="relative w-96 flex items-center">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
