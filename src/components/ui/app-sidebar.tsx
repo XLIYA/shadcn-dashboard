@@ -28,7 +28,7 @@ export function AppSidebar() {
             <NotepadText className="size-4" /> <Link to="/">Assignments</Link>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <Calendar className="size-4" /> <Link to="/">Calendar</Link>
+            <Calendar className="size-4" /> <Link to="/Calendar">Calendar</Link>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
             <MessageCircle className="size-4" /><Link to="/">Messages</Link> <Badge className=" ml-auto size-8 bg-violet-100 text-violet-700  text-sm" variant="secondary">5</Badge>
