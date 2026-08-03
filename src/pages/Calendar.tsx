@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight, MapPin, Video, Plus, Calendar as CalendarIcon } from 'lucide-react'
-import { Calendar } from '@/components/ui/calendar' 
+import { Calendar } from '@/components/ui/calendar'
 
 const today = new Date(2025, 4, 20)
 
@@ -22,32 +22,34 @@ const events: {
   { id: 7, title: 'Team Meeting',      type: 'Meeting',  time: '02:00 PM', location: 'Online',    online: true, date: new Date(2025, 5, 3) },
 ]
 
-const typeColors: Record<string, { bg: string; text: string }> = {
-  Class:    { bg: '#7c6ff7', text: '#fff' },
-  Lecture:  { bg: '#dcfce7', text: '#15803d' },
-  Lab:      { bg: '#fef9c3', text: '#a16207' },
-  Exam:     { bg: '#fee2e2', text: '#dc2626' },
-  Meeting:  { bg: '#dbeafe', text: '#1d4ed8' },
-  Workshop: { bg: '#ffedd5', text: '#c2410c' },
-  Quiz:     { bg: '#f3e8ff', text: '#7e22ce' },
+// رنگ بج نوع رویداد (بک‌گراند + متن)
+const typeClasses: Record<string, string> = {
+  Class:    'bg-[#7c6ff7] text-white',
+  Lecture:  'bg-green-100 text-green-700',
+  Lab:      'bg-yellow-100 text-yellow-700',
+  Exam:     'bg-red-100 text-red-600',
+  Meeting:  'bg-blue-100 text-blue-700',
+  Workshop: 'bg-orange-100 text-orange-700',
+  Quiz:     'bg-purple-100 text-purple-700',
 }
 
-const dotColors: Record<string, string> = {
-  Class:    '#7c6ff7',
-  Lecture:  '#22c55e',
-  Lab:      '#eab308',
-  Exam:     '#ef4444',
-  Meeting:  '#3b82f6',
-  Workshop: '#f97316',
-  Quiz:     '#a855f7',
+// رنگ نقطه (دات) کوچک کنار هر رویداد
+const dotClasses: Record<string, string> = {
+  Class:    'bg-[#7c6ff7]',
+  Lecture:  'bg-green-500',
+  Lab:      'bg-yellow-500',
+  Exam:     'bg-red-500',
+  Meeting:  'bg-blue-500',
+  Workshop: 'bg-orange-500',
+  Quiz:     'bg-purple-500',
 }
 
 const legendItems = [
-  { type: 'Class',   color: '#7c6ff7' },
-  { type: 'Lecture', color: '#22c55e' },
-  { type: 'Lab',     color: '#eab308' },
-  { type: 'Exam',    color: '#ef4444' },
-  { type: 'Meeting', color: '#3b82f6' },
+  { type: 'Class' },
+  { type: 'Lecture' },
+  { type: 'Lab' },
+  { type: 'Exam' },
+  { type: 'Meeting' },
 ]
 
 function getRelativeDay(date: Date): string {
@@ -79,23 +81,29 @@ export default function CalendarPage() {
   }, {})
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f9fafb', padding: '32px', fontFamily: 'system-ui, sans-serif' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <div className="min-h-screen bg-gray-50 p-8 font-sans">
+      <div className="max-w-[1100px] mx-auto">
 
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24 }}>
+        <div className="flex items-start justify-between mb-6">
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', margin: 0 }}>Calendar</h1>
-            <p style={{ fontSize: 13, color: '#6b7280', marginTop: 4 }}>Manage your schedule and upcoming events.</p>
+            <h1 className="text-[22px] font-bold text-gray-900 m-0">Calendar</h1>
+            <p className="text-[13px] text-gray-500 mt-1">Manage your schedule and upcoming events.</p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <button style={btnStyle}>Today</button>
-            <button style={iconBtnStyle}><ChevronLeft size={15} color="#374151" /></button>
-            <button style={iconBtnStyle}><ChevronRight size={15} color="#374151" /></button>
-            <select style={{ ...btnStyle, paddingRight: 28, appearance: 'auto' }}>
+          <div className="flex items-center gap-2">
+            <button className="px-3 py-1.5 text-[13px] border border-gray-200 rounded-lg bg-white text-gray-700 cursor-pointer">
+              Today
+            </button>
+            <button className="p-1.5 border border-gray-200 rounded-lg bg-white cursor-pointer flex items-center">
+              <ChevronLeft size={15} className="text-gray-700" />
+            </button>
+            <button className="p-1.5 border border-gray-200 rounded-lg bg-white cursor-pointer flex items-center">
+              <ChevronRight size={15} className="text-gray-700" />
+            </button>
+            <select className="px-3 py-1.5 pr-7 text-[13px] border border-gray-200 rounded-lg bg-white text-gray-700 cursor-pointer appearance-auto">
               <option>May 2025</option>
             </select>
-            <button style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', fontSize: 13, background: '#7c6ff7', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 500 }}>
+            <button className="flex items-center gap-1.5 px-3.5 py-1.5 text-[13px] bg-[#7c6ff7] text-white border-none rounded-lg cursor-pointer font-medium">
               <Plus size={14} />
               Add Event
             </button>
@@ -103,14 +111,14 @@ export default function CalendarPage() {
         </div>
 
         {/* Main row: big calendar + right sidebar */}
-        <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+        <div className="flex gap-5 items-start">
 
           {/* Big Calendar */}
-          <div style={{ flex: 1, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden' }}>
+          <div className="flex-1 bg-white rounded-xl border border-gray-200 overflow-hidden">
             {/* Day headers */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', borderBottom: '1px solid #f3f4f6' }}>
+            <div className="grid grid-cols-7 border-b border-gray-100">
               {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => (
-                <div key={d} style={{ padding: '10px 0', textAlign: 'center', fontSize: 12, fontWeight: 600, color: '#9ca3af' }}>{d}</div>
+                <div key={d} className="py-2.5 text-center text-xs font-semibold text-gray-400">{d}</div>
               ))}
             </div>
             <MainCalendarGrid
@@ -123,32 +131,32 @@ export default function CalendarPage() {
           </div>
 
           {/* Right sidebar */}
-          <div style={{ width: 280, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="w-[280px] flex-shrink-0 flex flex-col gap-4">
 
             {/* Today's Schedule */}
-            <div style={cardStyle}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>Today's Schedule</span>
-                <button style={{ fontSize: 12, color: '#7c6ff7', background: 'none', border: 'none', cursor: 'pointer' }}>View All</button>
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <div className="flex justify-between items-center mb-3.5">
+                <span className="text-[13px] font-semibold text-gray-900">Today's Schedule</span>
+                <button className="text-xs text-[#7c6ff7] bg-transparent border-none cursor-pointer">View All</button>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div className="flex flex-col gap-4">
                 {todayEvents.map(e => (
-                  <div key={e.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                    <span style={{ fontSize: 12, color: '#6b7280', width: 60, flexShrink: 0, paddingTop: 2 }}>{e.time}</span>
-                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: dotColors[e.type], marginTop: 4, flexShrink: 0 }} />
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>{e.title}</span>
-                        <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: typeColors[e.type].bg, color: typeColors[e.type].text, fontWeight: 600 }}>
+                  <div key={e.id} className="flex items-start gap-2.5">
+                    <span className="text-xs text-gray-500 w-[60px] flex-shrink-0 pt-0.5">{e.time}</span>
+                    <div className={`w-2 h-2 rounded-full mt-1 flex-shrink-0 ${dotClasses[e.type]}`} />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[13px] font-semibold text-gray-900">{e.title}</span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${typeClasses[e.type]}`}>
                           {e.type}
                         </span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 3, fontSize: 11, color: '#9ca3af' }}>
+                      <div className="flex items-center gap-1 mt-0.5 text-[11px] text-gray-400">
                         {e.online ? <Video size={11} /> : <MapPin size={11} />}
                         {e.location}
                       </div>
                     </div>
-                    <button style={{ fontSize: 11, border: '1px solid #e5e7eb', borderRadius: 6, padding: '3px 10px', background: '#fff', color: '#374151', cursor: 'pointer', flexShrink: 0 }}>
+                    <button className="text-[11px] border border-gray-200 rounded-md px-2.5 py-0.5 bg-white text-gray-700 cursor-pointer flex-shrink-0">
                       Join
                     </button>
                   </div>
@@ -157,7 +165,7 @@ export default function CalendarPage() {
             </div>
 
             {/* Mini Calendar (shadcn) */}
-            <div className="mini-calendar" style={{ background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', padding: 12 }}>
+            <div className="mini-calendar bg-white rounded-xl border border-gray-200 p-3">
               <Calendar
                 mode="single"
                 selected={selected}
@@ -172,51 +180,51 @@ export default function CalendarPage() {
         </div>
 
         {/* Bottom row: Upcoming Events + Legend */}
-        <div style={{ marginTop: 20, display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+        <div className="mt-5 flex gap-5 items-start">
 
           {/* Upcoming Events */}
-          <div style={{ flex: 1, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', padding: '20px 24px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>Upcoming Events</span>
-              <button style={{ fontSize: 12, color: '#7c6ff7', background: 'none', border: 'none', cursor: 'pointer' }}>View All</button>
+          <div className="flex-1 bg-white rounded-xl border border-gray-200 px-6 py-5">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-[13px] font-semibold text-gray-900">Upcoming Events</span>
+              <button className="text-xs text-[#7c6ff7] bg-transparent border-none cursor-pointer">View All</button>
             </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <table className="w-full border-collapse text-[13px]">
               <thead>
-                <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
+                <tr className="border-b border-gray-100">
                   {['Event','Type','Date','Time','Location','Action'].map(h => (
-                    <th key={h} style={{ textAlign: 'left', paddingBottom: 10, fontSize: 12, fontWeight: 500, color: '#9ca3af' }}>{h}</th>
+                    <th key={h} className="text-left pb-2.5 text-xs font-medium text-gray-400">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {upcomingEvents.map(e => (
-                  <tr key={e.id} style={{ borderBottom: '1px solid #f9fafb' }}>
-                    <td style={{ padding: '12px 12px 12px 0' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div style={{ width: 32, height: 32, borderRadius: 8, background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                          <CalendarIcon size={14} color="#6b7280" />
+                  <tr key={e.id} className="border-b border-gray-50">
+                    <td className="py-3 pr-3 pl-0">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                          <CalendarIcon size={14} className="text-gray-500" />
                         </div>
-                        <span style={{ fontWeight: 500, color: '#111827' }}>{e.title}</span>
+                        <span className="font-medium text-gray-900">{e.title}</span>
                       </div>
                     </td>
-                    <td style={{ padding: '12px 12px 12px 0' }}>
-                      <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 4, background: typeColors[e.type].bg, color: typeColors[e.type].text, fontWeight: 600 }}>
+                    <td className="py-3 pr-3 pl-0">
+                      <span className={`text-[11px] px-2 py-0.5 rounded font-semibold ${typeClasses[e.type]}`}>
                         {e.type}
                       </span>
                     </td>
-                    <td style={{ padding: '12px 12px 12px 0', color: '#374151' }}>
-                      <div style={{ fontWeight: 500 }}>{formatDate(e.date)}</div>
-                      <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{getRelativeDay(e.date)}</div>
+                    <td className="py-3 pr-3 pl-0 text-gray-700">
+                      <div className="font-medium">{formatDate(e.date)}</div>
+                      <div className="text-[11px] text-gray-400 mt-0.5">{getRelativeDay(e.date)}</div>
                     </td>
-                    <td style={{ padding: '12px 12px 12px 0', color: '#374151' }}>{e.time}</td>
-                    <td style={{ padding: '12px 12px 12px 0', color: '#374151' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                        {e.online ? <Video size={12} color="#9ca3af" /> : <MapPin size={12} color="#9ca3af" />}
+                    <td className="py-3 pr-3 pl-0 text-gray-700">{e.time}</td>
+                    <td className="py-3 pr-3 pl-0 text-gray-700">
+                      <div className="flex items-center gap-1">
+                        {e.online ? <Video size={12} className="text-gray-400" /> : <MapPin size={12} className="text-gray-400" />}
                         {e.location}
                       </div>
                     </td>
-                    <td style={{ padding: '12px 0' }}>
-                      <button style={{ fontSize: 12, border: '1px solid #e5e7eb', borderRadius: 6, padding: '4px 12px', background: '#fff', color: '#374151', cursor: 'pointer' }}>
+                    <td className="py-3 pl-0">
+                      <button className="text-xs border border-gray-200 rounded-md px-3 py-1 bg-white text-gray-700 cursor-pointer">
                         View
                       </button>
                     </td>
@@ -227,12 +235,12 @@ export default function CalendarPage() {
           </div>
 
           {/* Legend */}
-          <div style={{ width: 280, flexShrink: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', padding: '16px' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 20px' }}>
-              {legendItems.map(({ type, color }) => (
-                <div key={type} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <div style={{ width: 10, height: 10, borderRadius: 3, background: color, flexShrink: 0 }} />
-                  <span style={{ fontSize: 12, color: '#374151' }}>{type}</span>
+          <div className="w-[280px] flex-shrink-0 bg-white rounded-xl border border-gray-200 p-4">
+            <div className="flex flex-wrap gap-x-5 gap-y-2.5">
+              {legendItems.map(({ type }) => (
+                <div key={type} className="flex items-center gap-1.5">
+                  <div className={`w-2.5 h-2.5 rounded-[3px] flex-shrink-0 ${dotClasses[type]}`} />
+                  <span className="text-xs text-gray-700">{type}</span>
                 </div>
               ))}
             </div>
@@ -242,34 +250,6 @@ export default function CalendarPage() {
       </div>
     </div>
   )
-}
-
-// ─── Styles ───────────────────────────────────────────────────────────────────
-const btnStyle: React.CSSProperties = {
-  padding: '6px 12px',
-  fontSize: 13,
-  border: '1px solid #e5e7eb',
-  borderRadius: 8,
-  background: '#fff',
-  color: '#374151',
-  cursor: 'pointer',
-}
-
-const iconBtnStyle: React.CSSProperties = {
-  padding: '6px 8px',
-  border: '1px solid #e5e7eb',
-  borderRadius: 8,
-  background: '#fff',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-}
-
-const cardStyle: React.CSSProperties = {
-  background: '#fff',
-  borderRadius: 12,
-  border: '1px solid #e5e7eb',
-  padding: 16,
 }
 
 // ─── Main Calendar Grid ───────────────────────────────────────────────────────
@@ -298,7 +278,7 @@ function MainCalendarGrid({
     cells.push({ date: new Date(year, mon + 1, cells.length - daysInMonth - startOffset + 1), current: false })
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
+    <div className="grid grid-cols-7">
       {cells.map((cell, i) => {
         const key = cell.date.toDateString()
         const dots = eventDays[key] ?? []
@@ -309,31 +289,26 @@ function MainCalendarGrid({
           <div
             key={i}
             onClick={() => onSelect(cell.date)}
-            style={{
-              minHeight: 80,
-              padding: '8px 10px',
-              borderBottom: '1px solid #f3f4f6',
-              borderRight: '1px solid #f3f4f6',
-              cursor: 'pointer',
-              background: !cell.current ? '#fafafa' : '#fff',
-            }}
+            className={`min-h-[80px] px-2.5 py-2 border-b border-r border-gray-100 cursor-pointer ${
+              cell.current ? 'bg-white' : 'bg-gray-50'
+            }`}
           >
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 6 }}>
-              <span style={{
-                width: 26, height: 26,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                borderRadius: '50%',
-                fontSize: 13,
-                fontWeight: isToday ? 700 : 400,
-                background: isToday ? '#7c6ff7' : isSelected ? '#f3f4f6' : 'transparent',
-                color: isToday ? '#fff' : cell.current ? '#111827' : '#d1d5db',
-              }}>
+            <div className="flex justify-end mb-1.5">
+              <span
+                className={`w-[26px] h-[26px] flex items-center justify-center rounded-full text-[13px] ${
+                  isToday
+                    ? 'font-bold bg-[#7c6ff7] text-white'
+                    : isSelected
+                      ? 'font-normal bg-gray-100 text-gray-900'
+                      : `font-normal ${cell.current ? 'text-gray-900' : 'text-gray-300'}`
+                }`}
+              >
                 {cell.date.getDate()}
               </span>
             </div>
-            <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+            <div className="flex gap-[3px] flex-wrap justify-end">
               {dots.slice(0, 3).map((type, j) => (
-                <div key={j} style={{ width: 6, height: 6, borderRadius: '50%', background: dotColors[type] }} />
+                <div key={j} className={`w-1.5 h-1.5 rounded-full ${dotClasses[type]}`} />
               ))}
             </div>
           </div>
