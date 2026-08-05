@@ -1,6 +1,6 @@
 import App from "@/App";
 import CalendarPage from "@/pages/Calendar";
-import Course from "@/pages/Course ";
+import Course from "@/pages/Course";
 import { Dashboard } from "@/pages/dashboard";
 import { createBrowserRouter } from "react-router-dom";
 
