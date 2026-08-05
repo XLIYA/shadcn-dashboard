@@ -22,7 +22,7 @@ export function AppSidebar() {
 
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
-            <BookOpen className="size-4" /><Link to="/">Courses</Link>
+            <BookOpen className="size-4" /><Link to="/Course ">Course </Link>
           </SidebarMenuItem>
           <SidebarMenuItem className="flex gap-2 p-2 items-center rounded-md hover:bg-gray-200 hover:text-violet-700  cursor-pointer ">
             <NotepadText className="size-4" /> <Link to="/">Assignments</Link>

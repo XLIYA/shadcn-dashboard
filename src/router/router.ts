@@ -1,5 +1,6 @@
 import App from "@/App";
 import CalendarPage from "@/pages/Calendar";
+import Course from "@/pages/Course ";
 import { Dashboard } from "@/pages/dashboard";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -17,6 +18,11 @@ export const router = createBrowserRouter([
         path:"/Calendar",
         index: true,
         Component: CalendarPage,
+      },
+      {
+        path:"/Course ",
+        index: true,
+        Component: Course  ,
       },
     ],
   },
