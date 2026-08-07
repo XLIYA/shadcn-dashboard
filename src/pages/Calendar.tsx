@@ -1,4 +1,5 @@
 import { api } from "@/api/axios";
+import { getEvent } from "@/api/courseApi";
 import { CalendarHeader } from "@/components/calendar/CalendarHeader";
 import { EventTypeLegend } from "@/components/calendar/EventTypeLegend";
 import { MainCalendarGrid } from "@/components/calendar/MainCalendarGrid";
@@ -18,12 +19,14 @@ export default function CalendarPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const { data } = await api.get("/events");
+        const data = await getEvent();
+
         setEvents(data);
       } catch (error) {
         console.log(error);
       }
     };
+
 
     fetchEvents();
   }, []);
