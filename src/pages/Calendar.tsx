@@ -1,55 +1,74 @@
-import { CalendarHeader } from '@/components/calendar/CalendarHeader'
-import { EventTypeLegend } from '@/components/calendar/EventTypeLegend'
-import { MainCalendarGrid } from '@/components/calendar/MainCalendarGrid'
-import { MiniCalendarCard } from '@/components/calendar/MiniCalendarCard'
-import { TodaySchedule } from '@/components/calendar/TodaySchedule'
-import { UpcomingEvents } from '@/components/calendar/UpcomingEvents'
-import { events, today } from '@/data/events'
-import type { EventType } from '@/types/event'
-import { useMemo, useState } from 'react'
+import { api } from "@/api/axios";
+import { CalendarHeader } from "@/components/calendar/CalendarHeader";
+import { EventTypeLegend } from "@/components/calendar/EventTypeLegend";
+import { MainCalendarGrid } from "@/components/calendar/MainCalendarGrid";
+import { MiniCalendarCard } from "@/components/calendar/MiniCalendarCard";
+import { TodaySchedule } from "@/components/calendar/TodaySchedule";
+import { UpcomingEvents } from "@/components/calendar/UpcomingEvents";
+import {  today } from "@/data/events";
+import type { EventType } from "@/types/event";
+import { useEffect, useMemo, useState } from "react";
 
 export default function CalendarPage() {
-  const [selected, setSelected] = useState<Date | undefined>(today)
-  const [month, setMonth] = useState<Date>(today)
+  const [selected, setSelected] = useState<Date | undefined>(today);
+  const [month, setMonth] = useState<Date>(today);
+//  connect to api 
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const { data } = await api.get("/events");
+        setEvents(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const todayEvents = useMemo(
-    () => events.filter(e => e.date.toDateString() === today.toDateString()),
-    [],
-  )
+    () => events.filter((e) => e.date.toDateString() === today.toDateString()),
+    []
+  );
 
   const upcomingEvents = useMemo(
     () =>
       events
-        .filter(e => e.date >= today)
+        .filter((e) => e.date >= today)
         .sort((a, b) => a.date.getTime() - b.date.getTime()),
-    [],
-  )
+    []
+  );
 
   const eventDays = useMemo(
     () =>
       events.reduce<Record<string, EventType[]>>((acc, e) => {
-        const key = e.date.toDateString()
-        if (!acc[key]) acc[key] = []
-        acc[key].push(e.type)
-        return acc
+        const key = e.date.toDateString();
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(e.type);
+        return acc;
       }, {}),
-    [],
-  )
+    []
+  );
 
-  const monthLabel = month.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  const monthLabel = month.toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
 
   const goToToday = () => {
-    setSelected(today)
-    setMonth(today)
-  }
+    setSelected(today);
+    setMonth(today);
+  };
 
   const goPrevMonth = () => {
-    setMonth(m => new Date(m.getFullYear(), m.getMonth() - 1, 1))
-  }
+    setMonth((m) => new Date(m.getFullYear(), m.getMonth() - 1, 1));
+  };
 
   const goNextMonth = () => {
-    setMonth(m => new Date(m.getFullYear(), m.getMonth() + 1, 1))
-  }
+    setMonth((m) => new Date(m.getFullYear(), m.getMonth() + 1, 1));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-8 font-sans">
@@ -89,5 +108,5 @@ export default function CalendarPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

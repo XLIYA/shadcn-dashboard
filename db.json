@@ -67,6 +67,116 @@
         "progress": 80,
         "status": "completed"
       }
+    ],
+    "events": [
+      {
+        "id": 1,
+        "title": "React Advanced",
+        "type": "Class",
+        "time": "10:00 AM",
+        "location": "Room A-201",
+        "date": "2025-05-20"
+      },
+      {
+        "id": 2,
+        "title": "TypeScript Basics",
+        "type": "Lecture",
+        "time": "02:00 PM",
+        "location": "Online Meeting",
+        "online": true,
+        "date": "2025-05-20"
+      },
+      {
+        "id": 3,
+        "title": "JavaScript ES6+",
+        "type": "Lab",
+        "time": "04:30 PM",
+        "location": "Room B-305",
+        "date": "2025-05-20"
+      },
+      {
+        "id": 4,
+        "title": "Frontend Fundamentals",
+        "type": "Class",
+        "time": "09:00 AM",
+        "location": "Room A-101",
+        "date": "2025-05-05"
+      },
+      {
+        "id": 5,
+        "title": "UI Design Workshop",
+        "type": "Workshop",
+        "time": "01:00 PM",
+        "location": "Room C-102",
+        "date": "2025-05-09"
+      },
+      {
+        "id": 6,
+        "title": "State Management",
+        "type": "Class",
+        "time": "10:30 AM",
+        "location": "Room A-201",
+        "date": "2025-05-12"
+      },
+      {
+        "id": 7,
+        "title": "CSS Deep Dive",
+        "type": "Lecture",
+        "time": "11:00 AM",
+        "location": "Room B-204",
+        "date": "2025-05-14"
+      },
+      {
+        "id": 8,
+        "title": "Component Patterns",
+        "type": "Class",
+        "time": "03:00 PM",
+        "location": "Room A-201",
+        "date": "2025-05-14"
+      },
+      {
+        "id": 9,
+        "title": "Sprint Review",
+        "type": "Lecture",
+        "time": "10:00 AM",
+        "location": "Online",
+        "online": true,
+        "date": "2025-05-30"
+      },
+      {
+        "id": 10,
+        "title": "React Workshop",
+        "type": "Workshop",
+        "time": "10:00 AM",
+        "location": "Room A-201",
+        "date": "2025-05-21"
+      },
+      {
+        "id": 11,
+        "title": "Midterm Exam",
+        "type": "Exam",
+        "time": "09:00 AM",
+        "location": "Exam Hall",
+        "date": "2025-05-28"
+      },
+      {
+        "id": 12,
+        "title": "JavaScript Quiz",
+        "type": "Quiz",
+        "time": "11:00 AM",
+        "location": "Online",
+        "online": true,
+        "date": "2025-06-01"
+      },
+      {
+        "id": 13,
+        "title": "Team Meeting",
+        "type": "Meeting",
+        "time": "02:00 PM",
+        "location": "Online",
+        "online": true,
+        "date": "2025-06-03"
+      }
     ]
   }
   
