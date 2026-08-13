@@ -1,4 +1,4 @@
-export type EventType =
+export type EventType=
   | 'Class'
   | 'Lecture'
   | 'Lab'
@@ -6,6 +6,7 @@ export type EventType =
   | 'Meeting'
   | 'Workshop'
   | 'Quiz'
+  | 'never'
 
 export interface CalendarEvent {
   id: number
@@ -14,5 +15,5 @@ export interface CalendarEvent {
   time: string
   location: string
   online?: boolean
-  date: Date
+  date: Date|"never"
 }

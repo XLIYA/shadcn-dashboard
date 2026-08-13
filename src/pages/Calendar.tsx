@@ -7,46 +7,37 @@ import { MiniCalendarCard } from "@/components/calendar/MiniCalendarCard";
 import { TodaySchedule } from "@/components/calendar/TodaySchedule";
 import { UpcomingEvents } from "@/components/calendar/UpcomingEvents";
 import {  today } from "@/data/events";
+import type { CalendarEvent } from "@/types/event";
 import type { EventType } from "@/types/event";
 import { useEffect, useMemo, useState } from "react";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import { Spinner } from "@/components/ui/spinner"
 
 export default function CalendarPage() {
   const [selected, setSelected] = useState<Date | undefined>(today);
   const [month, setMonth] = useState<Date>(today);
 //  connect to api 
-  const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const data = await getEvent();
-
-        setEvents(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-
-    fetchEvents();
-  }, []);
+ const { data:events, error, isLoading, isError } = useQuery({
+    queryKey: ["calendar"],
+    queryFn: getEvent ,
+  });
+  console.log(events);
 
   const todayEvents = useMemo(
-    () => events.filter((e) => e.date.toDateString() === today.toDateString()),
+    () => events?.filter((e:CalendarEvent) => e.date.toDateString() === today.toDateString()),
     []
   );
 
   const upcomingEvents = useMemo(
     () =>
-      events
-        .filter((e) => e.date >= today)
-        .sort((a, b) => a.date.getTime() - b.date.getTime()),
+      events?.filter((e:CalendarEvent) => e.date >= today).sort((a:any, b:any) => a.date.getTime() - b.date.getTime()),
     []
   );
 
   const eventDays = useMemo(
     () =>
-      events.reduce<Record<string, EventType[]>>((acc, e) => {
+      events?.reduce((acc:any, e:CalendarEvent) => {
         const key = e.date.toDateString();
         if (!acc[key]) acc[key] = [];
         acc[key].push(e.type);
@@ -72,6 +63,12 @@ export default function CalendarPage() {
   const goNextMonth = () => {
     setMonth((m) => new Date(m.getFullYear(), m.getMonth() + 1, 1));
   };
+if (isLoading) {
+    return <Spinner /> 
+  }
+  if(isError){
+    return <p>{error.message}</p>
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8 font-sans">
@@ -89,12 +86,12 @@ export default function CalendarPage() {
             month={month}
             selected={selected}
             onSelect={setSelected}
-            eventDays={eventDays}
+            eventDays={eventDays|| []}
             today={today}
           />
 
           <div className="w-[280px] flex-shrink-0 flex flex-col gap-4">
-            <TodaySchedule events={todayEvents} />
+            <TodaySchedule events={todayEvents||[]} />
             <MiniCalendarCard
               selected={selected}
               onSelect={setSelected}
@@ -106,7 +103,7 @@ export default function CalendarPage() {
 
         {/* Bottom row: Upcoming Events + Legend */}
         <div className="mt-5 flex gap-5 items-start">
-          <UpcomingEvents events={upcomingEvents} today={today} />
+          <UpcomingEvents events={upcomingEvents|| []} today={today} />
           <EventTypeLegend />
         </div>
       </div>
